@@ -40,11 +40,29 @@ export class Graph {
         if (!visited[adj[v][i]]) {
           visited[adj[v][i]] = true;
           queue.push(adj[v][i]);
-
         }
       }
     }
 
     return false;
+  }
+
+  dfs(start, end, path = [], shortest = [], toPrint = false) {
+    path.push(start);
+    if (start === end) {
+      return path;
+    }
+    for (let i = 0; i < this.adjacent[start].length; i++) {
+      let node = this.adjacent[start][i];
+      if (!path.includes(node)) {
+        if (shortest === null || path.length < shortest.length) {
+          var newPath = this.dfs(node, end, path, shortest, toPrint);
+          if (newPath !== null) {
+            shortest = newPath;
+          }
+        }
+      }
+    }
+    return shortest;
   }
 }
